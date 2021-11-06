@@ -20,16 +20,14 @@ public class DoneTodosFragment extends Fragment {
 
     private DoneTodoListAdapter todoRecyclerViewAdapter;
 
-    public DoneTodosFragment() {
-        this.todoRecyclerViewAdapter = new DoneTodoListAdapter(((MainActivity) requireActivity()).getAllDoneTodo(),
-                p -> ((MainActivity)requireActivity()).onTodoDelete(p)) ;;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_todo_done, container, false);
+
+        this.todoRecyclerViewAdapter = new DoneTodoListAdapter(((MainActivity) requireActivity()).getAllDoneTodo(),
+                p -> ((MainActivity)requireActivity()).onTodoDelete(p));
 
         RecyclerView recyclerView = view.findViewById(R.id.doneTodoRecyclerView);
         recyclerView.setAdapter(todoRecyclerViewAdapter);

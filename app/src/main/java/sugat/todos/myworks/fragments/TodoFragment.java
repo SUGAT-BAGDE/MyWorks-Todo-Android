@@ -21,13 +21,6 @@ public class TodoFragment extends Fragment {
 
     private TodoListAdapter todoRecyclerViewAdapter;
 
-    public TodoFragment() {
-        super();
-        new TodoListAdapter(((MainActivity) getActivity()).getAllTodo(), p -> {
-            ((MainActivity)getActivity()).onTodoDone(p);
-        }) ;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +33,11 @@ public class TodoFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.todoRecycerView);
 
+        todoRecyclerViewAdapter = new TodoListAdapter(((MainActivity) getActivity()).getAllTodo(), p -> {
+            ((MainActivity)getActivity()).onTodoDone(p);
+        }) ;
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(todoRecyclerViewAdapter);
         
         view.findViewById(R.id.addBtnImageView).setOnClickListener(

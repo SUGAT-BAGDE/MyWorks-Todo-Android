@@ -82,7 +82,7 @@ public class TodoDBHandler extends SQLiteOpenHelper {
     }
 
     public void deleteTodoById(int id){
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
         db.delete(Params.db_MainTable, Params.Key_id+ "?=", new String[]{String.valueOf(id)});
         db.close();
     }
