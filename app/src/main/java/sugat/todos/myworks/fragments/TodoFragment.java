@@ -11,15 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import sugat.todos.myworks.Adapters.RecyclerAdapter.TodoListAdapter;
 import sugat.todos.myworks.MainActivity;
 import sugat.todos.myworks.R;
+import sugat.todos.myworks.models.Todo;
 
 public class TodoFragment extends Fragment {
     
     static public String tag = "TodoFragment";
 
     private TodoListAdapter todoRecyclerViewAdapter;
+    private ArrayList<Todo> todoArrayList;
+
+    public TodoFragment(ArrayList<Todo> todos){
+        super();
+        todoArrayList = todos;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +42,8 @@ public class TodoFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.todoRecycerView);
 
-        todoRecyclerViewAdapter = new TodoListAdapter(((MainActivity) getActivity()).getAllTodo(), p -> {
-            ((MainActivity)getActivity()).onTodoDone(p);
-        }) ;
+        todoRecyclerViewAdapter = new TodoListAdapter(todoArrayList,
+                p -> ((MainActivity)requireActivity()).onTodoDone(todoArrayList.get(p).getId()));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(todoRecyclerViewAdapter);
@@ -51,6 +59,6 @@ public class TodoFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     public void notifyDataSetChanged(){
-        todoRecyclerViewAdapter.notifyDataSetChanged();
+        if (todoRecyclerViewAdapter!=null) todoRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

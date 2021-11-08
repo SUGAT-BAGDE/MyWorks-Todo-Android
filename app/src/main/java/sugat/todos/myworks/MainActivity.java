@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private DoneTodosFragment doneTodosFragment;
     private View.OnClickListener onTodoFragmentAddBtnClicked;
     private View.OnClickListener onTodoFragmentViewAllBtnClicked;
-    private ArrayList<Todo> todoArrayList;
     private ArrayList<Todo> doneTodoArrayList;
     private ArrayList<Todo> notDoneTodoArrayList;
 
@@ -33,18 +32,17 @@ public class MainActivity extends AppCompatActivity {
 
         dbHandler = new TodoDBHandler(MainActivity.this);
 
-        todoArrayList = (ArrayList<Todo>) dbHandler.getAllTodos();
         doneTodoArrayList = (ArrayList<Todo>) dbHandler.getAllDoneTodo();
         notDoneTodoArrayList = (ArrayList<Todo>) dbHandler.getNotDoneTodo();
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
 
-            todoFragment = new TodoFragment();
+            todoFragment = new TodoFragment(notDoneTodoArrayList);
             doneTodosFragment = new DoneTodosFragment();
 
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_container_view, todoFragment,"main")
+                    .add(R.id.fragment_container_view, todoFragment, "main")
                     .commit();
         }
 
@@ -56,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
             try {
                 getSupportFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.fragment_container_view, new AddTodoFragment(false,null), "addTodo")
+                        .replace(R.id.fragment_container_view, new AddTodoFragment(false, null), "addTodo")
                         .addToBackStack("main")
                         .commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         };
-        
+
         onTodoFragmentViewAllBtnClicked = v -> {
             if (savedInstanceState != null) {
                 return;
@@ -76,20 +74,12 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    public void addTodo(@NonNull Todo todo){
-        dbHandler.addTodo(todo);
-        todoArrayList = (ArrayList<Todo>) dbHandler.getAllTodos();
-        if (doneTodosFragment.isVisible()) notifyDoneTodoSetChanged();
-        else notifyNotDoneTodoSetChanged();
-    }
-
     @Override
     public void onBackPressed() {
 
-        if (getSupportFragmentManager().getBackStackEntryCount()<0){
+        if (getSupportFragmentManager().getBackStackEntryCount() < 0) {
             getSupportFragmentManager().popBackStack();
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -102,37 +92,33 @@ public class MainActivity extends AppCompatActivity {
         return onTodoFragmentViewAllBtnClicked;
     }
 
-    public ArrayList<Todo> getAllTodo(){
-        return notDoneTodoArrayList;
+    // Sql operations
+    public void addTodo(@NonNull Todo todo) {
+        dbHandler.addTodo(todo);
+        notifyTodoSetChanged();
     }
 
-    public void onTodoDone(int position){
-        Todo todo = todoArrayList.get(position);
+    public void onTodoDone(int id) {
+        Todo todo = dbHandler.getTodoById(id);
         todo.setDone(true);
         dbHandler.updateTodo(todo);
-        if (doneTodosFragment.isVisible()) notifyDoneTodoSetChanged();
-        else notifyNotDoneTodoSetChanged();
+        notifyTodoSetChanged();
     }
 
     public ArrayList<Todo> getAllDoneTodo() {
         return doneTodoArrayList;
     }
 
-    public void onTodoDelete(int position){
-        dbHandler.deleteTodoById(position);
-        if (doneTodosFragment.isVisible()) notifyDoneTodoSetChanged();
-        else notifyNotDoneTodoSetChanged();
+    public void onTodoDelete(int id) {
+        dbHandler.deleteTodoById(id);
+        notifyTodoSetChanged();
     }
 
-    private void notifyDoneTodoSetChanged(){
+    private void notifyTodoSetChanged() {
+        notDoneTodoArrayList = (ArrayList<Todo>) dbHandler.getNotDoneTodo();
         doneTodoArrayList = (ArrayList<Todo>) dbHandler.getAllDoneTodo();
-        todoArrayList = (ArrayList<Todo>) dbHandler.getAllTodos();
+        todoFragment.notifyDataSetChanged();
         doneTodosFragment.notifyDataSetChanged();
     }
 
-    private void notifyNotDoneTodoSetChanged(){
-        notDoneTodoArrayList = (ArrayList<Todo>) dbHandler.getNotDoneTodo();
-        todoArrayList = (ArrayList<Todo>) dbHandler.getAllTodos();
-        todoFragment.notifyDataSetChanged();
-    }
 }

@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import sugat.todos.myworks.Adapters.RecyclerAdapter.DoneTodoListAdapter;
 import sugat.todos.myworks.Adapters.RecyclerAdapter.TodoListAdapter;
 import sugat.todos.myworks.MainActivity;
 import sugat.todos.myworks.R;
+import sugat.todos.myworks.models.Todo;
 
 public class DoneTodosFragment extends Fragment {
 
@@ -38,6 +41,6 @@ public class DoneTodosFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     public void notifyDataSetChanged(){
-        todoRecyclerViewAdapter.notifyDataSetChanged();
+        if (todoRecyclerViewAdapter != null) todoRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

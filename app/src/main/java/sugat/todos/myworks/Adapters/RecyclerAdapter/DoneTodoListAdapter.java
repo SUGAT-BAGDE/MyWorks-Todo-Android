@@ -33,6 +33,7 @@ public class DoneTodoListAdapter extends RecyclerView.Adapter<DoneTodoListAdapte
             super(view);
             textView = view.findViewById(R.id.doneTodoTitle);
             deleteBtn = view.findViewById(R.id.doneTodoDeleteBtn);
+            deleteBtn.setMaxHeight(deleteBtn.getHeight());
         }
 
         public void setTextViewText(String text) {

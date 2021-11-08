@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import sugat.todos.myworks.Params.Params;
 import sugat.todos.myworks.models.Todo;
@@ -83,7 +84,7 @@ public class TodoDBHandler extends SQLiteOpenHelper {
 
     public void deleteTodoById(int id){
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(Params.db_MainTable, Params.Key_id+ "?=", new String[]{String.valueOf(id)});
+        db.delete(Params.db_MainTable, Params.Key_id+ "=?", new String[]{String.valueOf(id)});
         db.close();
     }
     
@@ -149,5 +150,21 @@ public class TodoDBHandler extends SQLiteOpenHelper {
 
         db.close();
         return ret;
+    }
+    
+    public Todo getTodoById(int id){
+        Todo todo = new Todo();
+
+        String query = "SELECT COUNT(*) FROM " + Params.db_MainTable + " WHERE " + Params.Key_id + " = ?";
+        Cursor cursor = getReadableDatabase().rawQuery(query, new String[]{String.valueOf(id)});
+
+        if (cursor.moveToFirst()){
+            todo.setId(cursor.getInt(0));
+            todo.setTitle(cursor.getString(1));
+            todo.setDesc(cursor.getString(2));
+            todo.setDone(cursor.getInt(3)==1);
+        }
+        
+        return todo;
     }
 }

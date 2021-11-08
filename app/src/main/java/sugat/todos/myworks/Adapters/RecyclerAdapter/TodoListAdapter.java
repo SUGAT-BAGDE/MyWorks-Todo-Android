@@ -33,6 +33,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
             super(view);
             textView = view.findViewById(R.id.todoTitle);
             doneBtn = view.findViewById(R.id.todoDoneBtn);
+            doneBtn.setMaxHeight(doneBtn.getHeight());
         }
 
         public TextView getTextView() {
@@ -58,7 +59,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Todo todo = localDataSet.get(position);
         viewHolder.getTextView().setText(todo.getTitle());
-        viewHolder.setOnClickListener(view -> listener.listen(position));
+        viewHolder.setOnClickListener(view -> listener.listen(localDataSet.get(position).getId()));
     }
 
     @Override
