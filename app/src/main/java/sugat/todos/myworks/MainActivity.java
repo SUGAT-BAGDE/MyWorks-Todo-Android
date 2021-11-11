@@ -8,6 +8,9 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import sugat.todos.myworks.Adapters.RecyclerAdapter.DoneTodoListAdapter;
+import sugat.todos.myworks.Adapters.RecyclerAdapter.TodoListAdapter;
+import sugat.todos.myworks.Listners.TodoDoneListener;
 import sugat.todos.myworks.data.TodoDBHandler;
 import sugat.todos.myworks.fragments.AddTodoFragment;
 import sugat.todos.myworks.fragments.TodoFragment;
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
 
-            todoFragment = new TodoFragment(notDoneTodoArrayList);
+            todoFragment = new TodoFragment();
             doneTodosFragment = new DoneTodosFragment();
 
             getSupportFragmentManager().beginTransaction()
@@ -92,14 +95,19 @@ public class MainActivity extends AppCompatActivity {
         return onTodoFragmentViewAllBtnClicked;
     }
 
+    public View.OnClickListener onNotDoneTodoClicked(int position) {
+        return v -> {
+
+        };
+    }
+
     // Sql operations
     public void addTodo(@NonNull Todo todo) {
         dbHandler.addTodo(todo);
         notifyTodoSetChanged();
     }
 
-    public void onTodoDone(int id) {
-        Todo todo = dbHandler.getTodoById(id);
+    public void onTodoDone(Todo todo) {
         todo.setDone(true);
         dbHandler.updateTodo(todo);
         notifyTodoSetChanged();
@@ -109,16 +117,24 @@ public class MainActivity extends AppCompatActivity {
         return doneTodoArrayList;
     }
 
+    public ArrayList<Todo> getNotDoneTodos() {
+        return notDoneTodoArrayList;
+    }
+
     public void onTodoDelete(int id) {
         dbHandler.deleteTodoById(id);
         notifyTodoSetChanged();
     }
-
+    
+    // On Data Set (TodoArrayLists) Changed
     private void notifyTodoSetChanged() {
-        notDoneTodoArrayList = (ArrayList<Todo>) dbHandler.getNotDoneTodo();
-        doneTodoArrayList = (ArrayList<Todo>) dbHandler.getAllDoneTodo();
+        notDoneTodoArrayList.clear();
+        notDoneTodoArrayList.addAll(dbHandler.getNotDoneTodo());
+        
+        doneTodoArrayList.clear();
+        doneTodoArrayList.addAll(dbHandler.getAllDoneTodo());
+
         todoFragment.notifyDataSetChanged();
         doneTodosFragment.notifyDataSetChanged();
     }
-
 }

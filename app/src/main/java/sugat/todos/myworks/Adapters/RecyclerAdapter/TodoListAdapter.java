@@ -59,7 +59,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Todo todo = localDataSet.get(position);
         viewHolder.getTextView().setText(todo.getTitle());
-        viewHolder.setOnClickListener(view -> listener.listen(localDataSet.get(position).getId()));
+        viewHolder.setOnClickListener(view -> listener.listen(localDataSet.get(position)));
     }
 
     @Override

@@ -10,14 +10,15 @@
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/splash_image.xml" value="0.14322916666666666" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/activity_test.xml" value="0.20380434782608695" />
-        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/done_todo_item.xml" value="0.264" />
-        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_add_todo.xml" value="0.2" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/done_todo_item.xml" value="0.4" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_add_todo.xml" value="0.264" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_dashboard.xml" value="0.20380434782608695" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_done_todos.xml" value="0.20833333333333334" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_notifications.xml" value="0.20380434782608695" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_splash.xml" value="0.2368659420289855" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo.xml" value="0.264" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo_done.xml" value="0.176" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo_info.xml" value="0.264" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo_list.xml" value="0.176" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/todo.xml" value="0.264" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/todo_item.xml" value="0.152" />

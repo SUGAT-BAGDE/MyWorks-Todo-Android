@@ -19,16 +19,8 @@ import sugat.todos.myworks.R;
 import sugat.todos.myworks.models.Todo;
 
 public class TodoFragment extends Fragment {
-    
-    static public String tag = "TodoFragment";
 
     private TodoListAdapter todoRecyclerViewAdapter;
-    private ArrayList<Todo> todoArrayList;
-
-    public TodoFragment(ArrayList<Todo> todos){
-        super();
-        todoArrayList = todos;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,8 +34,9 @@ public class TodoFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.todoRecycerView);
 
-        todoRecyclerViewAdapter = new TodoListAdapter(todoArrayList,
-                p -> ((MainActivity)requireActivity()).onTodoDone(todoArrayList.get(p).getId()));
+        todoRecyclerViewAdapter = new TodoListAdapter(
+                ((MainActivity)requireActivity()).getNotDoneTodos(),
+                ((MainActivity)requireActivity())::onTodoDone);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(todoRecyclerViewAdapter);

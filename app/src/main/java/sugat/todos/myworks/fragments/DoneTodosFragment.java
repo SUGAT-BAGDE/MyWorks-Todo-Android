@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import sugat.todos.myworks.Adapters.RecyclerAdapter.DoneTodoListAdapter;
 import sugat.todos.myworks.Adapters.RecyclerAdapter.TodoListAdapter;
+import sugat.todos.myworks.Listners.TodoDoneListener;
 import sugat.todos.myworks.MainActivity;
 import sugat.todos.myworks.R;
 import sugat.todos.myworks.models.Todo;
@@ -29,10 +30,12 @@ public class DoneTodosFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_todo_done, container, false);
 
-        this.todoRecyclerViewAdapter = new DoneTodoListAdapter(((MainActivity) requireActivity()).getAllDoneTodo(),
-                p -> ((MainActivity)requireActivity()).onTodoDelete(p));
-
         RecyclerView recyclerView = view.findViewById(R.id.doneTodoRecyclerView);
+
+        todoRecyclerViewAdapter = new DoneTodoListAdapter(
+                ((MainActivity)requireActivity()).getAllDoneTodo(),
+                ((MainActivity)requireActivity())::onTodoDelete);
+
         recyclerView.setAdapter(todoRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -41,6 +44,6 @@ public class DoneTodosFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     public void notifyDataSetChanged(){
-        if (todoRecyclerViewAdapter != null) todoRecyclerViewAdapter.notifyDataSetChanged();
+        if (todoRecyclerViewAdapter!=null) todoRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

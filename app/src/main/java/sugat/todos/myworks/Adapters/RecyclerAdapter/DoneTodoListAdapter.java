@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import sugat.todos.myworks.Listners.TodoDeleteListener;
 import sugat.todos.myworks.Listners.TodoDoneListener;
 import sugat.todos.myworks.R;
 import sugat.todos.myworks.models.Todo;
@@ -18,9 +19,9 @@ import sugat.todos.myworks.models.Todo;
 public class DoneTodoListAdapter extends RecyclerView.Adapter<DoneTodoListAdapter.ViewHolder> {
 
     private ArrayList<Todo> localDataSet;
-    private final TodoDoneListener listener;
+    private final TodoDeleteListener listener;
 
-    public DoneTodoListAdapter(ArrayList<Todo> dataSet, TodoDoneListener listener){
+    public DoneTodoListAdapter(ArrayList<Todo> dataSet, TodoDeleteListener listener){
         localDataSet = dataSet;
         this.listener = listener;
     }
@@ -58,7 +59,7 @@ public class DoneTodoListAdapter extends RecyclerView.Adapter<DoneTodoListAdapte
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Todo todo = localDataSet.get(position);
         viewHolder.setTextViewText(todo.getTitle());
-        viewHolder.setOnClickListener(view -> listener.listen(position));
+        viewHolder.setOnClickListener(view -> listener.listen(todo.getId()));
     }
 
     @Override

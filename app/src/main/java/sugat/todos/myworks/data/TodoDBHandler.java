@@ -155,14 +155,16 @@ public class TodoDBHandler extends SQLiteOpenHelper {
     public Todo getTodoById(int id){
         Todo todo = new Todo();
 
-        String query = "SELECT COUNT(*) FROM " + Params.db_MainTable + " WHERE " + Params.Key_id + " = ?";
-        Cursor cursor = getReadableDatabase().rawQuery(query, new String[]{String.valueOf(id)});
+        String query = "SELECT * FROM " + Params.db_MainTable + " WHERE " + Params.Key_id + " = " + String.valueOf(id);
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()){
-            todo.setId(cursor.getInt(0));
-            todo.setTitle(cursor.getString(1));
-            todo.setDesc(cursor.getString(2));
-            todo.setDone(cursor.getInt(3)==1);
+            do {
+                todo.setId(cursor.getInt(0));
+                todo.setTitle(cursor.getString(1));
+                todo.setDesc(cursor.getString(2));
+                todo.setDone(cursor.getInt(3) == 1);
+            } while (cursor.moveToNext());
         }
         
         return todo;

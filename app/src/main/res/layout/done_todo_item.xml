@@ -16,26 +16,21 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cardView2"
+        app:layout_constraintEnd_toStartOf="@+id/doneTodoDeleteBtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/doneTodoDeleteBtn"
         android:layout_width="50dp"
         android:layout_height="0dp"
+        android:background="@color/greenishBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="30dp">
-
-        <ImageView
-            android:id="@+id/doneTodoDeleteBtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:srcCompat="@drawable/delete"
-            android:background="@color/greenishBlue"/>
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@drawable/delete_btn"
+        app:shapeAppearanceOverlay="@style/roundImageView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
