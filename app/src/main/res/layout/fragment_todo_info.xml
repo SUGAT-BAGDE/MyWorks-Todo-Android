@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TodoInfoFragment">
+    tools:context=".fragments.TodoInfoFragment"
+    android:background="@color/bgPrimaryColor">
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:srcCompat="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/InfoTodoTitleTextView"
+        app:layout_constraintBottom_toTopOf="@+id/infoTodoTitleTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/InfoTodoTitleTextView"
+        android:id="@+id/infoTodoTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -30,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/InfoTodoDescTextView"
+        android:id="@+id/infoTodoDescTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="15dp"
@@ -39,10 +40,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/InfoTodoTitleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/infoTodoTitleTextView" />
 
     <TextView
-        android:id="@+id/InfoTodoTimeTextView"
+        android:id="@+id/infoTodoTimeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="15dp"
@@ -51,6 +52,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/InfoTodoDescTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/infoTodoDescTextView" />
+
+    <Button
+        android:id="@+id/todoEditBtn"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_shape"
+        android:drawableTop="@drawable/edit_btn"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.9"
+        android:text="Edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoTodoTimeTextView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

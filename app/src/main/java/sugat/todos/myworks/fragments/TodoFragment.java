@@ -36,16 +36,11 @@ public class TodoFragment extends Fragment {
 
         todoRecyclerViewAdapter = new TodoListAdapter(
                 ((MainActivity)requireActivity()).getNotDoneTodos(),
-                ((MainActivity)requireActivity())::onTodoDone);
+                ((MainActivity)requireActivity())::onTodoDone,
+                ((MainActivity)requireActivity())::onInfoClickListener);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(todoRecyclerViewAdapter);
-        
-        view.findViewById(R.id.addBtnImageView).setOnClickListener(
-                ((MainActivity) requireActivity()).getOnTodoFragmentAddBtnClicked());
-
-        view.findViewById(R.id.viewDoneTodoBtn).setOnClickListener(
-                ((MainActivity) requireActivity()).getOnTodoFragmentViewAllBtnClicked());
         
         return view;
     }

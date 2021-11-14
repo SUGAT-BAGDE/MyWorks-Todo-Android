@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AddTodoFragment">
+    tools:context=".fragments.AddOrUpdateTodoFragment"
+    android:background="@color/bgPrimaryColor">
 
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@+id/todoTitleEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/todo"
-        app:srcCompat="@drawable/ic_launcher_foreground"/>
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <Button
         android:id="@+id/addTodoBtn"
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/todoTimeSelectBtn" />
 
     <EditText
         android:id="@+id/todoTitleEditText"
@@ -57,23 +57,22 @@
         tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
     <TextView
-        android:id="@+id/TodoTimeSelectTextView"
+        android:id="@+id/todoTimeSelectTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:gravity="center"
-        android:text="Date : dd-mm-yyyy\nTime : hh:mm:ss"
+        android:text="Select Date and Time"
         android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="@+id/button2"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintBottom_toBottomOf="@+id/todoTimeSelectBtn"
+        app:layout_constraintEnd_toStartOf="@+id/todoTimeSelectBtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/todoDescEditText"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/todoTimeSelectBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"

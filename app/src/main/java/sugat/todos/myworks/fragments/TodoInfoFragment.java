@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import sugat.todos.myworks.MainActivity;
 import sugat.todos.myworks.R;
 import sugat.todos.myworks.models.Todo;
 
@@ -23,6 +25,15 @@ public class TodoInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_todo_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_todo_info, container, false);
+
+        ((TextView)view.findViewById(R.id.infoTodoTitleTextView)).setText(todo.getTitle());
+        ((TextView)view.findViewById(R.id.infoTodoDescTextView)).setText(todo.getDesc());
+        ((TextView)view.findViewById(R.id.infoTodoTimeTextView)).setText(todo.getTimeString());
+        view.findViewById(R.id.todoEditBtn).setOnClickListener(v -> {
+            ((MainActivity)getActivity()).editTodoUi(todo);
+        });
+
+        return view;
     }
 }

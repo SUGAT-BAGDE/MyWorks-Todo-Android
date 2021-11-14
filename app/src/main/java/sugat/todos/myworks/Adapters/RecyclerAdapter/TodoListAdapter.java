@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import sugat.todos.myworks.Listners.TodoDoneListener;
+import sugat.todos.myworks.Listners.TodoInfoListener;
 import sugat.todos.myworks.R;
 import sugat.todos.myworks.models.Todo;
 
@@ -19,10 +20,12 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
 
     private ArrayList<Todo> localDataSet;
     private TodoDoneListener listener;
+    private final TodoInfoListener todoInfoListener;
 
-    public TodoListAdapter(ArrayList<Todo> dataSet, TodoDoneListener listener){
+    public TodoListAdapter(ArrayList<Todo> dataSet, TodoDoneListener listener, TodoInfoListener todoInfoListener){
         localDataSet = dataSet;
         this.listener = listener;
+        this.todoInfoListener = todoInfoListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,6 +46,10 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         public void setOnClickListener (@NonNull  View.OnClickListener listener){
             doneBtn.setOnClickListener(listener);
         }
+
+        public void setOnTextViewClickListener(@NonNull View.OnClickListener listener){
+            textView.setOnClickListener(listener);
+        }
     }
 
 
@@ -60,6 +67,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         Todo todo = localDataSet.get(position);
         viewHolder.getTextView().setText(todo.getTitle());
         viewHolder.setOnClickListener(view -> listener.listen(localDataSet.get(position)));
+        viewHolder.setOnTextViewClickListener(v -> todoInfoListener.listen(todo));
     }
 
     @Override

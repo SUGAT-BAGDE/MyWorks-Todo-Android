@@ -4,24 +4,33 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.20092592592592592" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/bottom_nav_selected_icon.xml" value="0.12569444444444444" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/bottom_nav_selector_icon.xml" value="0.12569444444444444" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/delete.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/delete_btn.xml" value="0.14375" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/edit_btn.xml" value="0.12569444444444444" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.21296296296296297" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.14322916666666666" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.15416666666666667" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/only_round_corner.xml" value="0.16111111111111112" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/round_corners.xml" value="0.16111111111111112" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/round_shape.xml" value="0.12569444444444444" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/drawable/splash_image.xml" value="0.14322916666666666" />
-        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/activity_main.xml" value="0.12" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/activity_test.xml" value="0.20380434782608695" />
-        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/done_todo_item.xml" value="0.4" />
-        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_add_todo.xml" value="0.264" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/done_todo_item.xml" value="0.1" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_add_todo.xml" value="0.12" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_dashboard.xml" value="0.20380434782608695" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_done_todos.xml" value="0.20833333333333334" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_notifications.xml" value="0.20380434782608695" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_splash.xml" value="0.2368659420289855" />
-        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo.xml" value="0.264" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo.xml" value="0.152" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo_done.xml" value="0.176" />
-        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo_info.xml" value="0.264" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo_info.xml" value="0.10400000000000001" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/fragment_todo_list.xml" value="0.176" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/todo.xml" value="0.264" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/layout/todo_item.xml" value="0.152" />
+        <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/menu/bottom_nav_menu.xml" value="0.176" />
         <entry key="..\:/Android_Projects/MyWorks/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14322916666666666" />
       </map>
     </option>

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import sugat.todos.myworks.Adapters.RecyclerAdapter.DoneTodoListAdapter;
 import sugat.todos.myworks.Adapters.RecyclerAdapter.TodoListAdapter;
 import sugat.todos.myworks.Listners.TodoDoneListener;
+import sugat.todos.myworks.Listners.TodoInfoListener;
 import sugat.todos.myworks.MainActivity;
 import sugat.todos.myworks.R;
 import sugat.todos.myworks.models.Todo;
@@ -34,7 +35,8 @@ public class DoneTodosFragment extends Fragment {
 
         todoRecyclerViewAdapter = new DoneTodoListAdapter(
                 ((MainActivity)requireActivity()).getAllDoneTodo(),
-                ((MainActivity)requireActivity())::onTodoDelete);
+                ((MainActivity)requireActivity())::onTodoDelete,
+                ((MainActivity)requireActivity())::onInfoClickListener );
 
         recyclerView.setAdapter(todoRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

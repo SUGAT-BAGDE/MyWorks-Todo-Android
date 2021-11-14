@@ -4,31 +4,35 @@
     android:id="@+id/todo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:background="@drawable/round_corners">
 
     <TextView
         android:id="@+id/todoTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:padding="10sp"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/todoDoneBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/todoDoneBtn"
-        app:srcCompat="@drawable/done"
         android:layout_width="50dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
         android:background="@color/greenishBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundImageView" />
+        app:shapeAppearanceOverlay="@style/roundImageView"
+        app:srcCompat="@drawable/done" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

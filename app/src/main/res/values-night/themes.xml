@@ -24,4 +24,12 @@
         <item name="color">@color/white</item>
     </style>
 
+    <style name="halfRoundImageView" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="cornerSize">30%</item>
+    </style>
+
+    <!--  Bg Colors on background  -->
+    <color name="translucentBg">#80000000</color>
+    <color name="bgPrimaryColor">@color/black</color>
+
 </resources>

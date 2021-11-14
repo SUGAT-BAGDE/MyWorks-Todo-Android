@@ -3,14 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/todo"
+    style="@style/halfRoundImageView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:background="@drawable/round_corners">
 
     <TextView
         android:id="@+id/doneTodoTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:padding="10sp"
         android:text="TextView"
         android:textColor="@color/black"
@@ -25,12 +28,13 @@
         android:id="@+id/doneTodoDeleteBtn"
         android:layout_width="50dp"
         android:layout_height="0dp"
+        android:layout_margin="5dp"
         android:background="@color/greenishBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@drawable/delete_btn"
-        app:shapeAppearanceOverlay="@style/roundImageView"/>
+        app:shapeAppearanceOverlay="@style/roundImageView"
+        tools:srcCompat="@drawable/delete_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
