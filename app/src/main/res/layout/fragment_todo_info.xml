@@ -56,17 +56,18 @@
 
     <Button
         android:id="@+id/todoEditBtn"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:background="@drawable/round_shape"
         android:drawableTop="@drawable/edit_btn"
-        app:layout_constraintVertical_bias="0.8"
-        app:layout_constraintHorizontal_bias="0.9"
         android:text="Edit"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoTodoTimeTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/infoTodoTimeTextView"
+        app:layout_constraintVertical_bias="0.8" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
