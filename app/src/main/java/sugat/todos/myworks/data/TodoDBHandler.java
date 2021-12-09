@@ -181,6 +181,7 @@ public class TodoDBHandler extends SQLiteOpenHelper {
                 }
             } while (cursor.moveToNext());
         }
+        cursor.close();
         
         return todo;
     }

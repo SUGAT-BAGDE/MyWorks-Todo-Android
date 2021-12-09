@@ -19,7 +19,7 @@ import sugat.todos.myworks.models.Todo;
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHolder> {
 
     private ArrayList<Todo> localDataSet;
-    private TodoDoneListener listener;
+    private final TodoDoneListener listener;
     private final TodoInfoListener todoInfoListener;
 
     public TodoListAdapter(ArrayList<Todo> dataSet, TodoDoneListener listener, TodoInfoListener todoInfoListener){
@@ -52,7 +52,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ViewHo
         }
     }
 
-
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 

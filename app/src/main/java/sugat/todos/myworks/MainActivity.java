@@ -4,26 +4,34 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import sugat.todos.myworks.JobServices.NotificationJobService;
+import sugat.todos.myworks.Params.Params;
+import sugat.todos.myworks.Receivers.WorkTimeReceiver;
 import sugat.todos.myworks.data.TodoDBHandler;
 import sugat.todos.myworks.fragments.AddOrUpdateTodoFragment;
 import sugat.todos.myworks.fragments.TodoFragment;
 import sugat.todos.myworks.fragments.DoneTodosFragment;
 import sugat.todos.myworks.fragments.TodoInfoFragment;
 import sugat.todos.myworks.models.Todo;
-import sugat.todos.myworks.Receivers.WorkTimeReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,14 +41,12 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private ArrayList<Todo> doneTodoArrayList;
     private ArrayList<Todo> notDoneTodoArrayList;
-    public static final String NotificationChannel = "sugat.todos.myworks.Channels.Notify";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Theme_MyWorks);
         setContentView(R.layout.activity_main);
-        createNotificationChannel();
 
         dbHandler = new TodoDBHandler(MainActivity.this);
 
@@ -60,54 +66,12 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView = findViewById(R.id.bottomNavigationView);
             bottomNavigationView.setSelectedItemId(R.id.bottom_nav_home_item);
             
-            bottomNavigationView.setOnItemSelectedListener(item -> {
-                
-                switch (item.getItemId()){
-                    case R.id.bottom_nav_home_item :
-                        clearBackStack();
-                        getSupportFragmentManager().beginTransaction()
-                                .setReorderingAllowed(true)
-                                .replace(R.id.fragment_container_view, todoFragment)
-                                .commit();
-                        break;
-                    
-                    case R.id.bottom_nav_all_done_item :
-                        clearBackStack();
-                        getSupportFragmentManager().popBackStack();
-                        getSupportFragmentManager().beginTransaction()
-                                    .setReorderingAllowed(true)
-                                    .replace(R.id.fragment_container_view, doneTodosFragment)
-                                    .commit();
-                        break;
-
-                    case R.id.bottom_nav_add_item:
-                        try {
-                            clearBackStack();
-                            getSupportFragmentManager().beginTransaction()
-                                    .setReorderingAllowed(true)
-                                    .replace(R.id.fragment_container_view, new AddOrUpdateTodoFragment(false,null))
-                                    .commit();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case R.id.bottom_nav_invisible:
-                        clearBackStack();
-                        break;
-
-                    default : 
-                        System.out.println("Hello");
-                        break;
-                }
-                
-                return true;
-            });
+            bottomNavigationView.setOnItemSelectedListener(this::changeFragmentByBottomNav);
         }
     }
 
     @Override
     public void onBackPressed() {
-
         if (getSupportFragmentManager().getBackStackEntryCount() < 0) {
             getSupportFragmentManager().popBackStack();
         } else {
@@ -117,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Sql operations
     public void addTodo(@NonNull Todo todo) {
-        dbHandler.addTodo(todo);
+        long id = dbHandler.addTodo(todo);
         bottomNavigationView.setSelectedItemId(R.id.bottom_nav_home_item);
         clearBackStack();
         getSupportFragmentManager().beginTransaction()
@@ -126,17 +90,23 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         notifyTodoSetChanged();
 
-        Intent intent = new Intent(MainActivity.this, WorkTimeReceiver.class);
-        intent.putExtra("title", todo.getTitle());
-        intent.putExtra("desc", todo.getDesc());
-        intent.putExtra("time", todo.getTimeString());
-
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(todo.getTimeInDate());
+
+        /*
+        Intent intent = new Intent(MainActivity.this, WorkTimeReceiver.class);
+        intent.putExtra(Params.todo_title, todo.getTitle());
+        intent.putExtra(Params.todo_desc, todo.getDesc());
+        intent.putExtra("time", todo.getTimeString());
         
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0 , intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1 , intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         ((AlarmManager)getSystemService(Context.ALARM_SERVICE))
-                .set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                .setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+         */
+        
+        scheduleTodoWork(todo);
+
     }
 
     public void onTodoDone(Todo todo) {
@@ -144,17 +114,22 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.updateTodo(todo);
         notifyTodoSetChanged();
         try {
+            /*
             Intent intent = new Intent(MainActivity.this, WorkTimeReceiver.class);
-            intent.putExtra("title", todo.getTitle());
-            intent.putExtra("desc", todo.getDesc());
-            intent.putExtra("time", todo.getTimeString());
+            intent.putExtra(Params.todo_title, todo.getTitle());
+            intent.putExtra(Params.todo_desc, todo.getDesc());
+            intent.putExtra("time", todo.getTimeString());                       
 
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(todo.getTimeInDate());
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
             ((AlarmManager) getSystemService(Context.ALARM_SERVICE))
                     .cancel(pendingIntent);
+                    
+             */
+
+            cancelTodoWork(todo.getId());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -208,58 +183,121 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editTodoSql(@NonNull Todo todo){
-        Todo oldTodo = dbHandler.getTodoById(todo.getId());
         dbHandler.updateTodo(todo);
         notifyTodoSetChanged();
 
-        try {
+        if (todo.isDone()) {
+            try {
+                /*
             Intent oldIntent = new Intent(MainActivity.this, WorkTimeReceiver.class);
-            oldIntent.putExtra("title", oldTodo.getTitle());
-            oldIntent.putExtra("desc" , oldTodo.getDesc());
+            oldIntent.putExtra(Params.todo_title, oldTodo.getTitle());
+            oldIntent.putExtra(Params.todo_desc , oldTodo.getDesc());
             oldIntent.putExtra("time" , oldTodo.getTimeString());
 
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(todo.getTimeInDate());
 
-            PendingIntent oldPendingIntent = PendingIntent.getBroadcast(this, 1, oldIntent, 0);
+            PendingIntent oldPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, oldIntent, 0);
             ((AlarmManager) getSystemService(Context.ALARM_SERVICE))
                     .cancel(oldPendingIntent);
 
             Intent intent = new Intent(MainActivity.this, WorkTimeReceiver.class);
-            intent.putExtra("title", todo.getTitle());
-            intent.putExtra("desc", todo.getDesc());
-            intent.putExtra("time", WorkTimeReceiver.dateFormat.format(todo.getTimeInDate()));
+            intent.putExtra(Params.todo_title, todo.getTitle());
+            intent.putExtra(Params.todo_desc, todo.getDesc());
 
             calendar = new GregorianCalendar();
             calendar.setTime(todo.getTimeInDate());
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0 , intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0 , intent, 0);
             ((AlarmManager)getSystemService(Context.ALARM_SERVICE))
-                    .set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    .setExact(AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(),
+                            pendingIntent);
+
+             */
+
+                cancelTodoWork(todo.getId());
+                scheduleTodoWork(todo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+
     }
 
-    public void createNotificationChannel(){
+    private void scheduleTodoWork(Todo todo){
 
-        NotificationChannel channel;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            channel = new NotificationChannel(NotificationChannel,
-                    "My Works notification channel", NotificationManager.IMPORTANCE_HIGH);
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(todo.getTimeInDate());
 
-            channel.setDescription("This channel is to notify about work");
 
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
+        JobScheduler jobScheduler = getSystemService(JobScheduler.class);
 
+        PersistableBundle bundle = new PersistableBundle();
+        bundle.putString(Params.todo_title, todo.getTitle());
+        bundle.putString(Params.todo_desc, todo.getDesc());
+
+        long def = calendar.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+        JobInfo.Builder builder = new JobInfo.Builder(todo.getId(), new ComponentName(getApplicationContext(), NotificationJobService.class))
+                    .setMinimumLatency(def)
+                    .setOverrideDeadline(def + 2000)
+                    .setExtras(bundle)
+                    .setPersisted(true);
+
+        jobScheduler.schedule(builder.build());
+    }
+
+    private void cancelTodoWork(int id){
+        getSystemService(JobScheduler.class).cancel(id);
     }
     
-    public void clearBackStack(){
+    private void clearBackStack(){
         for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
             getSupportFragmentManager().popBackStack();
         }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private boolean changeFragmentByBottomNav(MenuItem item){
+
+        switch (item.getItemId()){
+            case R.id.bottom_nav_home_item :
+                clearBackStack();
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragment_container_view, todoFragment)
+                        .commit();
+                break;
+
+            case R.id.bottom_nav_all_done_item :
+                clearBackStack();
+                getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragment_container_view, doneTodosFragment)
+                        .commit();
+                break;
+
+            case R.id.bottom_nav_add_item:
+                try {
+                    clearBackStack();
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fragment_container_view, new AddOrUpdateTodoFragment(false,null))
+                            .commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.bottom_nav_invisible:
+                clearBackStack();
+                break;
+
+            default :
+                System.out.println("Hello");
+                break;
+        }
+
+        return true;
     }
 }

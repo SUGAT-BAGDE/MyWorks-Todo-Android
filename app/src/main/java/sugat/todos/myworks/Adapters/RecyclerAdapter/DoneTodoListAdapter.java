@@ -52,6 +52,7 @@ public class DoneTodoListAdapter extends RecyclerView.Adapter<DoneTodoListAdapte
         }
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 

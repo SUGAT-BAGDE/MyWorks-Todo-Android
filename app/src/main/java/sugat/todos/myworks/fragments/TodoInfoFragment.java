@@ -30,9 +30,7 @@ public class TodoInfoFragment extends Fragment {
         ((TextView)view.findViewById(R.id.infoTodoTitleTextView)).setText(todo.getTitle());
         ((TextView)view.findViewById(R.id.infoTodoDescTextView)).setText(todo.getDesc());
         ((TextView)view.findViewById(R.id.infoTodoTimeTextView)).setText(todo.getTimeString());
-        view.findViewById(R.id.todoEditBtn).setOnClickListener(v -> {
-            ((MainActivity)getActivity()).editTodoUi(todo);
-        });
+        view.findViewById(R.id.todoEditBtn).setOnClickListener(v -> ((MainActivity)requireActivity()).editTodoUi(todo));
 
         return view;
     }

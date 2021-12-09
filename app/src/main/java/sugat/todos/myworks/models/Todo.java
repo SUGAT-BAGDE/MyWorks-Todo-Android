@@ -6,11 +6,9 @@ import androidx.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
-import sugat.todos.myworks.R;
 
 public class Todo {
+
     private int id;
     private String title;
     private String desc;
@@ -19,7 +17,9 @@ public class Todo {
     @SuppressLint("SimpleDateFormat")
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd LLL, yyyy KK:mm:ss aaa");
 
-    public Todo(){}
+    public Todo(){
+
+    }
 
     private Todo(int id, String title, String desc){
         this.id = id;

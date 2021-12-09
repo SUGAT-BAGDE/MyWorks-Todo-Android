@@ -1,67 +1,44 @@
 package sugat.todos.myworks.Receivers;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
+import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import sugat.todos.myworks.MainActivity;
+import sugat.todos.myworks.Params.Params;
 import sugat.todos.myworks.R;
+
+import static android.provider.Settings.System.DEFAULT_RINGTONE_URI;
 
 public class WorkTimeReceiver extends BroadcastReceiver {
 
-    private TextToSpeech textToSpeech;
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("KK:mm aaa");
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MainActivity.NotificationChannel)
+
+        NotificationManager manager = context.getSystemService(NotificationManager.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel Channel = new NotificationChannel(
+                    Params.NotificationChannel,
+                    "My Works notification channel",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            manager.createNotificationChannel(Channel);
+        }
+
+        MediaPlayer mp = MediaPlayer.create(context, DEFAULT_RINGTONE_URI);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Params.NotificationChannel)
                 .setSmallIcon(R.drawable.splash_image)
-                .setContentTitle(intent.getStringExtra("title"))
-                .setContentText(intent.getStringExtra("desc"))
-                .setPriority(NotificationCompat.PRIORITY_HIGH);        
-        
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        mediaPlayer.start();
-                
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+                .setContentTitle(intent.getStringExtra(Params.todo_title))
+                .setContentText(intent.getStringExtra(Params.todo_desc))
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-        notificationManagerCompat.notify(200,builder.build());
-
-        textToSpeech = new TextToSpeech(context.getApplicationContext(), new TextToSpeech.OnInitListener(){
-            @Override
-            public void onInit(int status) {
-
-                if (status == TextToSpeech.SUCCESS) {
-
-                    int result = textToSpeech.setLanguage(Locale.getDefault());
-                    textToSpeech.setSpeechRate(1);
-                    
-                    if ( result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
-                        Log.e("tts", "language ");
-                    }
-                    else {
-                        CharSequence charSequence = "It is " + intent.getStringExtra("time")
-                                + ". You Need to do " + intent.getStringExtra("title");
-
-                        textToSpeech.speak(charSequence,
-                                TextToSpeech.QUEUE_FLUSH, null, null);
-                    }
-                }
-                else {
-                    Log.e("tts", "init");
-                }
-            }
-        });
-
+        manager.notify(200,builder.build());
+        mp.start();
     }
 }

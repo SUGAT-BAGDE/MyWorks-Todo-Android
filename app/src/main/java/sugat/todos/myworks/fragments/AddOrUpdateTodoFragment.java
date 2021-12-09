@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -26,7 +25,7 @@ import sugat.todos.myworks.models.Todo;
 
 public class AddOrUpdateTodoFragment extends Fragment {
 
-    private boolean toUpdate;
+    private final boolean toUpdate;
     private Todo todo;
     private Calendar calendar;
 
@@ -58,9 +57,8 @@ public class AddOrUpdateTodoFragment extends Fragment {
             ((TextView)view.findViewById(R.id.todoTimeSelectTextView)).setText(todo.getTimeString());
         }
 
-        view.findViewById(R.id.todoTimeSelectBtn).setOnClickListener(v -> {
-            getDateTime(view.findViewById(R.id.todoTimeSelectTextView));
-        });
+        view.findViewById(R.id.todoTimeSelectBtn).setOnClickListener(v ->
+                getDateTime(view.findViewById(R.id.todoTimeSelectTextView)));
 
         view.findViewById(R.id.addTodoBtn).setOnClickListener(v -> {
             String title = todoTitleEditText.getText().toString();

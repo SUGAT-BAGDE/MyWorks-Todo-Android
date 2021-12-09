@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="sugat.todos.myworks" >
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,33 +15,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWorks" >
 
-        <!--  Activities in app  -->
+        <!-- Activities in app -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!--  BroadCastReceiver of App  -->
+        <!-- BroadCastReceiver of App -->
         <receiver
             android:name=".Receivers.WorkTimeReceiver"
             android:enabled="true"
-            android:process=":remote"/>
-
-        <receiver android:name=".Receivers.RescheduleWork"
+            android:exported="true"
+            android:process=":remote" />
+        <receiver
+            android:name=".Receivers.RescheduleWork"
             android:enabled="true"
-            android:exported="true">
-
+            android:exported="true" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
-    </application>
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+        <!--    Services of app    -->
+        <service
+            android:name=".JobServices.NotificationJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+        </service>
+    </application>
 
 </manifest>
